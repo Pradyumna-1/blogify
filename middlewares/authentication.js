@@ -1,6 +1,6 @@
 const { validateToken } = require("../services/authentication");
 
-function checkAuthenticationCookie(cookieName) {
+function checkForAuthenticationCookie(cookieName) {
   return (req, res, next) => {
     const tokenCookieValue = req.cookies[cookieName];
     if (!tokenCookieValue) {
@@ -10,13 +10,12 @@ function checkAuthenticationCookie(cookieName) {
     try {
       const userPayload = validateToken(tokenCookieValue);
       req.user = userPayload;
-    } catch (error) {
-     return  next();
-    }
+    } catch (error) {}
+
+    return next();
   };
 }
 
 module.exports = {
-  checkAuthenticationCookie,
+  checkForAuthenticationCookie,
 };
- 
